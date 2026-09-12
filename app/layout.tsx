@@ -54,12 +54,21 @@ export const metadata: Metadata = {
     siteName: 'Schneiderei Yüksel',
     locale: 'de_AT',
     type: 'website',
+    images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'Schneiderei Yüksel · Änderungsschneiderei in Salzburg',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Schneiderei Yüksel · Maßarbeit in Salzburg',
     description:
       'Erste Schneiderei Österreichs mit digitaler Kundenbetreuung. Status am Handy, Handwerk seit 1990.',
+    images: ['/opengraph-image'],
   },
   alternates: {
     canonical: '/',
@@ -89,36 +98,70 @@ export const viewport: Viewport = {
   colorScheme: 'light',
 }
 
-const localBusinessSchema = {
+const structuredData = {
   '@context': 'https://schema.org',
-  '@type': 'TailorShop',
-  name: 'Schneiderei Yüksel',
-  image: 'https://schneiderei-yueksel.at/logo-mark.svg', // Placeholder für echtes Logo
-  '@id': 'https://schneiderei-yueksel.at',
-  url: 'https://schneiderei-yueksel.at',
-  telephone: '0662 825881',
-  email: 'Schneiderei.yueksel@gmail.com',
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'Maxglaner Hauptstraße 64',
-    addressLocality: 'Salzburg',
-    postalCode: '5020',
-    addressCountry: 'AT',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: 47.7963, // Ungefähre Koordinaten für Maxglaner Hauptstraße 64
-    longitude: 13.0186,
-  },
-  openingHoursSpecification: [
+  '@graph': [
     {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '08:00',
-      closes: '18:00',
+      '@type': 'Organization',
+      '@id': 'https://schneiderei-yueksel.at/#organization',
+      name: 'Schneiderei Yüksel',
+      legalName: 'Kleiderservice Yüksel KG',
+      url: 'https://schneiderei-yueksel.at',
+      logo: 'https://schneiderei-yueksel.at/logo-mark.svg',
+      image: 'https://schneiderei-yueksel.at/opengraph-image',
+      email: 'Schneiderei.yueksel@gmail.com',
+      telephone: '0662 825881',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Maxglaner Hauptstraße 64',
+        addressLocality: 'Salzburg',
+        postalCode: '5020',
+        addressCountry: 'AT',
+      },
+    },
+    {
+      '@type': ['LocalBusiness', 'TailorShop'],
+      '@id': 'https://schneiderei-yueksel.at/#localbusiness',
+      name: 'Schneiderei Yüksel',
+      image: 'https://schneiderei-yueksel.at/opengraph-image',
+      url: 'https://schneiderei-yueksel.at',
+      telephone: '0662 825881',
+      email: 'Schneiderei.yueksel@gmail.com',
+      parentOrganization: {
+        '@id': 'https://schneiderei-yueksel.at/#organization',
+      },
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Maxglaner Hauptstraße 64',
+        addressLocality: 'Salzburg',
+        postalCode: '5020',
+        addressCountry: 'AT',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 47.7963,
+        longitude: 13.0186,
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+          opens: '08:00',
+          closes: '18:00',
+        },
+      ],
+    },
+    {
+      '@type': 'WebPage',
+      '@id': 'https://schneiderei-yueksel.at/#webpage',
+      url: 'https://schneiderei-yueksel.at',
+      name: 'Schneiderei Yüksel · Maßarbeit & Änderungsschneiderei in Salzburg',
+      dateModified: '2026-09-12',
+      isPartOf: {
+        '@id': 'https://schneiderei-yueksel.at/#organization',
+      },
     },
   ],
-  sameAs: [],
 }
 
 export default function RootLayout({
@@ -131,7 +174,7 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
       <body className="min-h-full flex flex-col font-sans">
