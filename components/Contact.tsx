@@ -1,13 +1,8 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowUpRight, Check } from 'lucide-react'
-import { FormEvent, useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import { ArrowUpRight, Mail, Phone } from 'lucide-react'
 import RevealTitle from './RevealTitle'
-
-/** Test-E-Mail – vor Go-Live wieder auf Schneiderei.yueksel@gmail.com setzen */
-const FORM_EMAIL = 'finnkrue@icloud.com'
-const SITE_URL = 'https://schneiderei-yueksel.at'
 
 type ContactProps = {
   address: string
@@ -16,10 +11,19 @@ type ContactProps = {
   openingHours?: string
 }
 
-type FormStatus = 'idle' | 'sending' | 'success'
+function buildMailtoLink(email: string) {
+  const subject = encodeURIComponent('Anfrage – Schneiderei Yüksel')
+  const body = encodeURIComponent(
+    'Guten Tag,\n\nich habe eine Anfrage an die Schneiderei Yüksel:\n\n[Beschreibung Ihres Anliegens – z. B. Art der Änderung, Stoff, gewünschter Termin]\n\nMit freundlichen Grüßen\n[Ihr Name]\n[Telefonnummer, optional]',
+  )
+  return `mailto:${email}?subject=${subject}&body=${body}`
+}
 
-const inputClass =
-  'w-full border-0 border-b border-olive-950/12 bg-transparent px-0 py-3 text-[0.95rem] font-light text-olive-950 placeholder:text-olive-800/30 outline-none transition-colors focus:border-terracotta-500/70'
+const mailHints = [
+  'Art der Änderung oder des Anliegens',
+  'Gewünschter Termin oder Zeitrahmen',
+  'Telefonnummer für Rückfragen',
+]
 
 export default function Contact({
   address,
@@ -27,32 +31,16 @@ export default function Contact({
   email,
   openingHours,
 }: ContactProps) {
-  const [status, setStatus] = useState<FormStatus>('idle')
+  const mailtoHref = buildMailtoLink(email)
+  const telHref = `tel:${phone.replace(/\s/g, '')}`
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    if (params.get('contact') !== 'sent') return
-
-    setStatus('success')
-
-    const url = new URL(window.location.href)
-    url.searchParams.delete('contact')
-    window.history.replaceState({}, '', `${url.pathname}#contact`)
-  }, [])
-
-  const links = [
+  const visitLinks = [
     {
       label: address,
       href: `https://maps.google.com/?q=${encodeURIComponent(address)}`,
       external: true,
     },
-    { label: phone, href: `tel:${phone.replace(/\s/g, '')}` },
-    { label: email, href: `mailto:${email}` },
   ]
-
-  function handleSubmit(_event: FormEvent<HTMLFormElement>) {
-    setStatus('sending')
-  }
 
   return (
     <section
@@ -66,36 +54,69 @@ export default function Contact({
           </RevealTitle>
           <p className="mt-4 font-light text-olive-800/65">
             Besuchen Sie uns in Maxglan – Parkplätze nebenan, drei Stellplätze.
+            Oder schreiben Sie uns eine E-Mail – wir melden uns so bald wie möglich.
           </p>
-          {openingHours ? (
-            <p className="mt-3 text-sm font-light text-olive-800/50">
-              {openingHours}
-            </p>
-          ) : null}
         </div>
 
-        <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 xl:gap-28">
-          <div className="divide-y divide-olive-950/10 border-y border-olive-950/10 font-light text-olive-900">
-            {links.map((link, i) => (
+        <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20 xl:gap-28">
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.32em] text-terracotta-600">
+              Vor Ort
+            </p>
+
+            <div className="mt-5 divide-y divide-olive-950/10 border-y border-olive-950/10 font-light text-olive-900">
+              {visitLinks.map((link, i) => (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, x: -16 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.08 + i * 0.08, duration: 0.55 }}
+                  className="group flex min-h-[3.5rem] items-center justify-between gap-4 py-4 transition-colors hover:text-terracotta-600 sm:py-5"
+                >
+                  <span className="min-w-0 break-words">{link.label}</span>
+                  <ArrowUpRight
+                    size={16}
+                    strokeWidth={1.5}
+                    className="shrink-0 text-terracotta-600 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                  />
+                </motion.a>
+              ))}
+
               <motion.a
-                key={link.label}
-                href={link.href}
-                target={link.external ? '_blank' : undefined}
-                rel={link.external ? 'noopener noreferrer' : undefined}
+                href={telHref}
                 initial={{ opacity: 0, x: -16 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.08 + i * 0.08, duration: 0.55 }}
+                transition={{ delay: 0.16, duration: 0.55 }}
                 className="group flex min-h-[3.5rem] items-center justify-between gap-4 py-4 transition-colors hover:text-terracotta-600 sm:py-5"
               >
-                <span className="min-w-0 break-words">{link.label}</span>
+                <span className="flex items-center gap-3">
+                  <Phone size={15} strokeWidth={1.5} className="shrink-0 text-olive-800/40" />
+                  {phone}
+                </span>
                 <ArrowUpRight
                   size={16}
                   strokeWidth={1.5}
                   className="shrink-0 text-terracotta-600 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
                 />
               </motion.a>
-            ))}
+            </div>
+
+            {openingHours ? (
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2, duration: 0.55 }}
+                className="mt-6 text-sm font-light text-olive-800/50"
+              >
+                {openingHours}
+              </motion.p>
+            ) : null}
           </div>
 
           <motion.div
@@ -103,106 +124,61 @@ export default function Contact({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className="border-l border-olive-950/10 pl-0 lg:pl-12 xl:pl-16"
           >
             <p className="text-[10px] uppercase tracking-[0.32em] text-terracotta-600">
-              Schreiben Sie uns
-            </p>
-            <p className="mt-3 max-w-md font-light text-olive-800/60">
-              Eine kurze Nachricht genügt – wir melden uns so bald wie möglich.
+              Per E-Mail
             </p>
 
-            <form
-              action={`https://formsubmit.co/${encodeURIComponent(FORM_EMAIL)}`}
-              method="POST"
-              onSubmit={handleSubmit}
-              className="mt-8"
-            >
-              <input type="hidden" name="_subject" value="Anfrage – Schneiderei Yüksel" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_template" value="table" />
-              <input
-                type="hidden"
-                name="_next"
-                value={`${SITE_URL}/?contact=sent#contact`}
-              />
-              {/* Honeypot gegen Spam */}
-              <input type="text" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" />
+            <p className="mt-4 max-w-lg font-light leading-relaxed text-olive-800/65">
+              Schreiben Sie uns gerne – ob Änderung, Reparatur, Reinigung oder eine
+              allgemeine Frage. Eine kurze Beschreibung reicht, den Rest klären wir
+              persönlich.
+            </p>
 
-              <div className="grid gap-6 sm:grid-cols-2 sm:gap-x-10">
-                <label className="block sm:col-span-1">
-                  <span className="mb-2 block text-[10px] uppercase tracking-[0.24em] text-olive-800/45">
-                    Name
-                  </span>
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    autoComplete="name"
-                    placeholder="Ihr Name"
-                    className={inputClass}
-                  />
-                </label>
-
-                <label className="block sm:col-span-1">
-                  <span className="mb-2 block text-[10px] uppercase tracking-[0.24em] text-olive-800/45">
-                    E-Mail
-                  </span>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    autoComplete="email"
-                    placeholder="ihre@email.at"
-                    className={inputClass}
-                  />
-                </label>
-
-                <label className="block sm:col-span-2">
-                  <span className="mb-2 block text-[10px] uppercase tracking-[0.24em] text-olive-800/45">
-                    Nachricht
-                  </span>
-                  <textarea
-                    name="message"
-                    required
-                    rows={4}
-                    placeholder="Worum geht es?"
-                    className={`${inputClass} resize-none pt-3`}
-                  />
-                </label>
-              </div>
-
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <button
-                  type="submit"
-                  disabled={status === 'sending'}
-                  className="group inline-flex min-h-[3rem] items-center justify-center gap-2 self-start border border-olive-950/18 px-7 py-3 text-[0.78rem] uppercase tracking-[0.2em] text-olive-950 transition-all duration-300 hover:border-terracotta-500/45 hover:bg-terracotta-500/[0.04] hover:text-terracotta-600 disabled:cursor-not-allowed disabled:opacity-45"
+            <ul className="mt-6 space-y-2.5">
+              {mailHints.map((hint, i) => (
+                <li
+                  key={hint}
+                  className="flex items-start gap-3 text-sm font-light text-olive-800/55"
                 >
-                  {status === 'sending' ? 'Wird gesendet …' : 'Absenden'}
-                  {status !== 'sending' ? (
-                    <ArrowUpRight
-                      size={15}
-                      strokeWidth={1.5}
-                      className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                    />
-                  ) : null}
-                </button>
+                  <span className="mt-[0.45rem] h-px w-4 shrink-0 bg-terracotta-500/50" />
+                  {hint}
+                </li>
+              ))}
+            </ul>
 
-                <AnimatePresence mode="wait">
-                  {status === 'success' ? (
-                    <motion.p
-                      key="success"
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="flex items-center gap-2 text-sm font-light text-olive-800/70"
-                    >
-                      <Check size={16} strokeWidth={1.5} className="text-terracotta-600" />
-                      Vielen Dank – Ihre Nachricht wurde gesendet.
-                    </motion.p>
-                  ) : null}
-                </AnimatePresence>
-              </div>
-            </form>
+            <div className="mt-10 border-t border-olive-950/10 pt-8">
+              <a
+                href={mailtoHref}
+                className="group block transition-colors hover:text-terracotta-600"
+              >
+                <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-olive-800/45 transition-colors group-hover:text-terracotta-600/70">
+                  <Mail size={14} strokeWidth={1.5} />
+                  E-Mail-Adresse
+                </span>
+                <span className="mt-2 block break-all font-[family-name:var(--font-brand)] text-xl tracking-tight text-olive-950 sm:text-2xl md:text-[1.65rem]">
+                  {email}
+                </span>
+              </a>
+
+              <a
+                href={mailtoHref}
+                className="group mt-8 inline-flex min-h-[3rem] items-center justify-center gap-2 border border-olive-950/18 px-7 py-3 text-[0.78rem] uppercase tracking-[0.2em] text-olive-950 transition-all duration-300 hover:border-terracotta-500/45 hover:bg-terracotta-500/[0.04] hover:text-terracotta-600"
+              >
+                E-Mail schreiben
+                <ArrowUpRight
+                  size={15}
+                  strokeWidth={1.5}
+                  className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                />
+              </a>
+
+              <p className="mt-5 max-w-sm text-[0.85rem] font-light leading-relaxed text-olive-800/45">
+                Beim Klick öffnet sich Ihr E-Mail-Programm mit einer Vorlage –
+                einfach ausfüllen und absenden.
+              </p>
+            </div>
           </motion.div>
         </div>
       </div>
