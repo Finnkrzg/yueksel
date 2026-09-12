@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Mail, Phone } from 'lucide-react'
+import { ArrowUpRight, MessageCircle } from 'lucide-react'
 import RevealTitle from './RevealTitle'
 
 type ContactProps = {
@@ -19,12 +19,6 @@ function buildMailtoLink(email: string) {
   return `mailto:${email}?subject=${subject}&body=${body}`
 }
 
-const mailHints = [
-  'Art der Änderung oder des Anliegens',
-  'Gewünschter Termin oder Zeitrahmen',
-  'Telefonnummer für Rückfragen',
-]
-
 export default function Contact({
   address,
   phone,
@@ -32,153 +26,144 @@ export default function Contact({
   openingHours,
 }: ContactProps) {
   const mailtoHref = buildMailtoLink(email)
-  const telHref = `tel:${phone.replace(/\s/g, '')}`
 
-  const visitLinks = [
+  const details = [
     {
-      label: address,
+      label: 'Adresse',
+      value: address,
       href: `https://maps.google.com/?q=${encodeURIComponent(address)}`,
       external: true,
+    },
+    {
+      label: 'Telefon',
+      value: phone,
+      href: `tel:${phone.replace(/\s/g, '')}`,
+    },
+    {
+      label: 'Öffnungszeiten',
+      value: openingHours ?? '',
     },
   ]
 
   return (
     <section
       id="contact"
-      className="border-t border-olive-950/8 bg-sand-50 px-6 py-20 pb-[calc(5rem+env(safe-area-inset-bottom))] sm:py-28 md:px-12 md:py-32"
+      className="border-t border-olive-950/8 bg-sand-50 px-5 py-16 pb-[calc(7.5rem+env(safe-area-inset-bottom))] sm:px-8 sm:py-24 sm:pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:px-12 md:py-32 md:pb-32"
     >
       <div className="mx-auto max-w-[1400px]">
-        <div className="mb-12 max-w-xl sm:mb-16">
-          <RevealTitle className="font-[family-name:var(--font-brand)] text-4xl tracking-[-0.03em] text-olive-950 md:text-5xl">
+        <div className="mb-10 max-w-lg sm:mb-12 md:mb-16">
+          <RevealTitle className="font-[family-name:var(--font-brand)] text-[2rem] tracking-[-0.03em] text-olive-950 sm:text-4xl md:text-5xl">
             Kontakt
           </RevealTitle>
-          <p className="mt-4 font-light text-olive-800/65">
+          <p className="mt-3 font-light leading-relaxed text-olive-800/65 sm:mt-4">
             Besuchen Sie uns in Maxglan – Parkplätze nebenan, drei Stellplätze.
-            Oder schreiben Sie uns eine E-Mail – wir melden uns so bald wie möglich.
           </p>
         </div>
 
-        <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20 xl:gap-28">
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.32em] text-terracotta-600">
-              Vor Ort
-            </p>
+        <div className="grid gap-6 border-y border-olive-950/10 py-7 sm:grid-cols-2 sm:gap-8 sm:py-9 md:grid-cols-3 md:gap-10 md:py-10">
+          {details.map((item, i) => {
+            const content = (
+              <>
+                <p className="text-[10px] uppercase tracking-[0.26em] text-olive-800/40">
+                  {item.label}
+                </p>
+                <p className="mt-2 text-[0.95rem] font-light leading-relaxed text-olive-950 sm:text-base">
+                  {item.value}
+                </p>
+              </>
+            )
 
-            <div className="mt-5 divide-y divide-olive-950/10 border-y border-olive-950/10 font-light text-olive-900">
-              {visitLinks.map((link, i) => (
-                <motion.a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, x: -16 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+            if (!item.href) {
+              return (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.08 + i * 0.08, duration: 0.55 }}
-                  className="group flex min-h-[3.5rem] items-center justify-between gap-4 py-4 transition-colors hover:text-terracotta-600 sm:py-5"
+                  transition={{ delay: i * 0.08, duration: 0.5 }}
+                  className="sm:col-span-2 md:col-span-1"
                 >
-                  <span className="min-w-0 break-words">{link.label}</span>
-                  <ArrowUpRight
-                    size={16}
-                    strokeWidth={1.5}
-                    className="shrink-0 text-terracotta-600 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
-                  />
-                </motion.a>
-              ))}
+                  {content}
+                </motion.div>
+              )
+            }
 
+            return (
               <motion.a
-                href={telHref}
-                initial={{ opacity: 0, x: -16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.16, duration: 0.55 }}
-                className="group flex min-h-[3.5rem] items-center justify-between gap-4 py-4 transition-colors hover:text-terracotta-600 sm:py-5"
-              >
-                <span className="flex items-center gap-3">
-                  <Phone size={15} strokeWidth={1.5} className="shrink-0 text-olive-800/40" />
-                  {phone}
-                </span>
-                <ArrowUpRight
-                  size={16}
-                  strokeWidth={1.5}
-                  className="shrink-0 text-terracotta-600 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
-                />
-              </motion.a>
-            </div>
-
-            {openingHours ? (
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
+                key={item.label}
+                href={item.href}
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noopener noreferrer' : undefined}
+                initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.2, duration: 0.55 }}
-                className="mt-6 text-sm font-light text-olive-800/50"
-              >
-                {openingHours}
-              </motion.p>
-            ) : null}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            className="border-l border-olive-950/10 pl-0 lg:pl-12 xl:pl-16"
-          >
-            <p className="text-[10px] uppercase tracking-[0.32em] text-terracotta-600">
-              Per E-Mail
-            </p>
-
-            <p className="mt-4 max-w-lg font-light leading-relaxed text-olive-800/65">
-              Schreiben Sie uns gerne – ob Änderung, Reparatur, Reinigung oder eine
-              allgemeine Frage. Eine kurze Beschreibung reicht, den Rest klären wir
-              persönlich.
-            </p>
-
-            <ul className="mt-6 space-y-2.5">
-              {mailHints.map((hint, i) => (
-                <li
-                  key={hint}
-                  className="flex items-start gap-3 text-sm font-light text-olive-800/55"
-                >
-                  <span className="mt-[0.45rem] h-px w-4 shrink-0 bg-terracotta-500/50" />
-                  {hint}
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-10 border-t border-olive-950/10 pt-8">
-              <a
-                href={mailtoHref}
+                transition={{ delay: i * 0.08, duration: 0.5 }}
                 className="group block transition-colors hover:text-terracotta-600"
               >
-                <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-olive-800/45 transition-colors group-hover:text-terracotta-600/70">
-                  <Mail size={14} strokeWidth={1.5} />
-                  E-Mail-Adresse
-                </span>
-                <span className="mt-2 block break-all font-[family-name:var(--font-brand)] text-xl tracking-tight text-olive-950 sm:text-2xl md:text-[1.65rem]">
-                  {email}
-                </span>
-              </a>
+                {content}
+              </motion.a>
+            )
+          })}
+        </div>
 
-              <a
-                href={mailtoHref}
-                className="group mt-8 inline-flex min-h-[3rem] items-center justify-center gap-2 border border-olive-950/18 px-7 py-3 text-[0.78rem] uppercase tracking-[0.2em] text-olive-950 transition-all duration-300 hover:border-terracotta-500/45 hover:bg-terracotta-500/[0.04] hover:text-terracotta-600"
-              >
-                E-Mail schreiben
-                <ArrowUpRight
-                  size={15}
-                  strokeWidth={1.5}
-                  className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                />
-              </a>
+        <div className="mt-10 grid items-start gap-8 sm:mt-12 md:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] md:gap-10 lg:gap-20">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="min-w-0"
+          >
+            <p className="text-[10px] uppercase tracking-[0.28em] text-terracotta-600">
+              Schreiben Sie uns
+            </p>
+            <a
+              href={mailtoHref}
+              className="group mt-3 block break-words font-[family-name:var(--font-brand)] text-[1.15rem] leading-snug tracking-tight text-olive-950 transition-colors hover:text-terracotta-600 sm:text-[1.35rem] md:text-[1.25rem] lg:text-2xl"
+            >
+              {email}
+            </a>
+            <p className="mt-3 max-w-md text-[0.95rem] font-light leading-relaxed text-olive-800/55 sm:mt-4">
+              Öffnet Ihr E-Mail-Programm mit einer kurzen Vorlage – einfach
+              ausfüllen und absenden.
+            </p>
+            <a
+              href={mailtoHref}
+              className="group mt-6 inline-flex min-h-12 items-center gap-2 border border-olive-950/18 px-5 py-3 text-[0.75rem] uppercase tracking-[0.2em] text-olive-950 transition-all duration-300 hover:border-terracotta-500/45 hover:text-terracotta-600 sm:mt-7 sm:px-6 sm:text-[0.78rem]"
+            >
+              E-Mail schreiben
+              <ArrowUpRight
+                size={15}
+                strokeWidth={1.5}
+                className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
+            </a>
+          </motion.div>
 
-              <p className="mt-5 max-w-sm text-[0.85rem] font-light leading-relaxed text-olive-800/45">
-                Beim Klick öffnet sich Ihr E-Mail-Programm mit einer Vorlage –
-                einfach ausfüllen und absenden.
-              </p>
-            </div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.12, duration: 0.55 }}
+            className="min-w-0"
+          >
+            <p
+              aria-hidden
+              className="hidden text-[10px] uppercase tracking-[0.28em] text-transparent md:block"
+            >
+              Schreiben Sie uns
+            </p>
+            <p className="flex max-w-sm items-start gap-3 pr-16 text-[0.95rem] font-light leading-relaxed text-olive-800/55 sm:pr-0 md:mt-3">
+              <MessageCircle
+                size={18}
+                strokeWidth={1.4}
+                className="mt-0.5 shrink-0 text-terracotta-600"
+              />
+              <span>
+                Kurze Fragen? Unser Chat unten rechts antwortet sofort – zu
+                Leistungen, Wartezeiten oder Ihrem Besuch.
+              </span>
+            </p>
           </motion.div>
         </div>
       </div>

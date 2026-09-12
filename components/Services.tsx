@@ -62,7 +62,7 @@ export default function Services({ services }: ServicesProps) {
           </p>
         </div>
 
-        <div className="divide-y divide-sand-50/10 border-y border-sand-50/10">
+        <div className="divide-y divide-sand-50/10 border-t border-sand-50/10">
           {services.map((service, index) => (
             <motion.article
               key={service.title}

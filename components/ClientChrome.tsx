@@ -5,9 +5,6 @@ import dynamic from 'next/dynamic'
 const CustomCursor = dynamic(() => import('@/components/CustomCursor'), {
   ssr: false,
 })
-const ScrollThread = dynamic(() => import('@/components/ScrollThread'), {
-  ssr: false,
-})
 const Chatbot = dynamic(() => import('@/components/Chatbot'), {
   ssr: false,
 })
@@ -17,7 +14,6 @@ export default function ClientChrome() {
   return (
     <>
       <CustomCursor />
-      <ScrollThread />
       <Chatbot />
     </>
   )

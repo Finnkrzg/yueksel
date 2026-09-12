@@ -17,12 +17,15 @@ function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 }
 
+const HINT_STORAGE_KEY = 'yueksel-chat-hint-seen'
+
 export default function Chatbot() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>([welcomeMessage])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [showHint, setShowHint] = useState(false)
   const listRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -38,6 +41,33 @@ export default function Chatbot() {
       return () => window.clearTimeout(t)
     }
   }, [open])
+
+  useEffect(() => {
+    if (sessionStorage.getItem(HINT_STORAGE_KEY)) return
+
+    const reveal = () => {
+      if (sessionStorage.getItem(HINT_STORAGE_KEY)) return
+      sessionStorage.setItem(HINT_STORAGE_KEY, '1')
+      setShowHint(true)
+      window.setTimeout(() => setShowHint(false), 5200)
+    }
+
+    const onScroll = () => {
+      if (window.scrollY > 80) reveal()
+    }
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) > 4) reveal()
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('wheel', onWheel, { passive: true })
+    onScroll()
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('wheel', onWheel)
+    }
+  }, [])
 
   async function sendMessage(text: string) {
     const trimmed = text.trim()
@@ -94,7 +124,7 @@ export default function Chatbot() {
   }
 
   return (
-    <div className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-50 sm:right-5 sm:bottom-5 md:right-8 md:bottom-8">
+    <div className="fixed right-3 bottom-[calc(0.85rem+env(safe-area-inset-bottom))] z-50 sm:right-5 sm:bottom-5 md:right-8 md:bottom-8">
       <AnimatePresence>
         {open && (
           <motion.div
@@ -102,7 +132,7 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.98 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="mb-4 flex h-[min(420px,65svh)] w-[min(100vw-2rem,360px)] flex-col overflow-hidden rounded-2xl border border-olive-900/10 bg-sand-50 shadow-[0_20px_60px_rgba(44,48,36,0.18)]"
+            className="mb-3 flex h-[min(420px,68svh)] w-[min(calc(100vw-1.5rem),360px)] flex-col overflow-hidden rounded-2xl border border-olive-900/10 bg-sand-50 shadow-[0_20px_60px_rgba(44,48,36,0.18)] sm:mb-4 sm:h-[min(440px,65svh)]"
           >
             <div className="flex items-center justify-between border-b border-olive-900/8 bg-olive-950 px-4 py-3 text-sand-50">
               <div>
@@ -186,16 +216,51 @@ export default function Chatbot() {
         )}
       </AnimatePresence>
 
-      <motion.button
-        type="button"
-        aria-label={open ? 'Chat schließen' : 'Chat öffnen'}
-        onClick={() => setOpen((value) => !value)}
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.97 }}
-        className="ml-auto flex h-12 w-12 items-center justify-center rounded-full bg-olive-950 text-sand-50 shadow-[0_12px_30px_rgba(44,48,36,0.28)] sm:h-14 sm:w-14"
-      >
-        {open ? <X size={20} /> : <MessageCircle size={20} strokeWidth={1.5} />}
-      </motion.button>
+      <div className="relative ml-auto flex items-end justify-end">
+        <AnimatePresence>
+          {showHint && !open && (
+            <motion.p
+              initial={{ opacity: 0, x: 12, y: 6 }}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              exit={{ opacity: 0, x: 8, y: 4 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute right-[3.6rem] bottom-1 w-max max-w-[min(13rem,calc(100vw-5rem))] rounded-2xl rounded-br-sm bg-olive-950 px-3.5 py-2.5 text-[0.8rem] leading-snug text-sand-50 shadow-[0_12px_28px_rgba(44,48,36,0.22)] sm:right-[4.25rem] sm:bottom-2 sm:max-w-[14rem]"
+            >
+              Fragen? Hier können Sie uns direkt schreiben.
+            </motion.p>
+          )}
+        </AnimatePresence>
+
+        <motion.button
+          type="button"
+          aria-label={open ? 'Chat schließen' : 'Chat öffnen'}
+          onClick={() => {
+            setShowHint(false)
+            setOpen((value) => !value)
+          }}
+          animate={
+            showHint && !open
+              ? { scale: [1, 1.08, 1], boxShadow: '0 0 0 10px rgba(188,115,86,0.22)' }
+              : { scale: 1, boxShadow: '0 12px 30px rgba(44,48,36,0.28)' }
+          }
+          transition={
+            showHint && !open
+              ? { duration: 1.15, repeat: 3, ease: 'easeInOut' }
+              : { duration: 0.25 }
+          }
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          className="relative flex h-12 w-12 items-center justify-center rounded-full bg-olive-950 text-sand-50 sm:h-14 sm:w-14"
+        >
+          {showHint && !open ? (
+            <span
+              aria-hidden
+              className="absolute inset-0 animate-ping rounded-full bg-terracotta-500/35"
+            />
+          ) : null}
+          {open ? <X size={20} /> : <MessageCircle size={20} strokeWidth={1.5} />}
+        </motion.button>
+      </div>
     </div>
   )
 }
