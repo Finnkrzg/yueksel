@@ -21,12 +21,27 @@ export const fallbackHomepage: HomepageData = {
   },
   services: [
     {
+      title: 'Änderungen aller Art',
+      description:
+        'Kürzen, enger machen, Ärmel anpassen – präzise Maßarbeit für jedes Kleidungsstück.',
+    },
+    {
+      title: 'Reparieren',
+      description:
+        'Risse, lose Knöpfe, defekte Reißverschlüsse – fachgerecht und haltbar instand gesetzt.',
+    },
+    {
+      title: 'Recycling',
+      description:
+        'Alte Lieblingsstücke neu beleben – nachhaltig statt wegwerfen.',
+    },
+    {
       title: 'Reinigung',
       description:
         'Schonende Pflege für Anzüge, Kleider und empfindliche Stoffe.',
     },
     {
-      title: 'Teppich Reinigung',
+      title: 'Teppichreinigung',
       description:
         'Fachgerechte Reinigung mit Respekt vor Material und Farbe.',
     },
@@ -70,6 +85,6 @@ export const fallbackHomepage: HomepageData = {
     address: 'Maxglaner Hauptstraße 64, 5020 Salzburg',
     phone: '0662 825881',
     email: 'info@schneiderei-yueksel.at',
-    openingHours: 'Mo–Fr 09:00–18:00, Sa 09:00–13:00',
+    openingHours: 'Mo–Fr 09:00–18:00, Sa geschlossen',
   },
 }

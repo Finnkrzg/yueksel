@@ -6,14 +6,16 @@ export const chatFacts = {
   address: 'Maxglaner Hauptstraße 64, 5020 Salzburg',
   phone: '0662 825881',
   email: 'info@schneiderei-yueksel.at',
-  openingHours: 'Mo–Fr 09:00–18:00, Sa 09:00–13:00',
+  openingHours: 'Mo–Fr 09:00–18:00, Sa geschlossen',
   since: 1990,
   parking: 'Ja, Parkplätze direkt vor der Tür.',
   appointment:
     'Nein, kein Termin nötig – einfach während der Öffnungszeiten vorbeikommen.',
   usp: 'Erste Schneiderei Österreichs mit digitaler Kundenbetreuung: Per Link sehen Kunden am Handy den Status ihrer Anfertigung und wann sie abholbereit ist.',
   services: [
-    'Maßänderungen und Schneiderei-Handwerk',
+    'Änderungen aller Art',
+    'Reparieren',
+    'Recycling',
     'Reinigung (Anzüge, Kleider, empfindliche Stoffe)',
     'Teppichreinigung',
     'Vorhangservice (Maßanfertigung und Montage)',

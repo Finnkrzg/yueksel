@@ -22,13 +22,8 @@ export function mergeHomepage(data: Partial<HomepageData> | null): HomepageData 
       detailImageUrl: base.usp.detailImageUrl,
       galleryUrls: base.usp.galleryUrls,
     },
-    services:
-      data?.services && data.services.length > 0
-        ? data.services.map((service) => ({
-            title: service.title || '',
-            description: service.description || '',
-          }))
-        : base.services,
+    // Services fest aus Fallback – aktuelle Leistungsliste im Code gepflegt
+    services: base.services,
     about: {
       talha: {
         description: data?.about?.talha?.description || base.about.talha.description,
@@ -53,7 +48,7 @@ export function mergeHomepage(data: Partial<HomepageData> | null): HomepageData 
       address: data?.contact?.address || base.contact.address,
       phone: data?.contact?.phone || base.contact.phone,
       email: data?.contact?.email || base.contact.email,
-      openingHours: data?.contact?.openingHours || base.contact.openingHours,
+      openingHours: base.contact.openingHours,
     },
   }
 }

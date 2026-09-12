@@ -1,8 +1,11 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { ArrowUpRight } from 'lucide-react'
 import type { ServiceItem } from '@/lib/types'
 import RevealTitle from './RevealTitle'
+
+const PRICE_LIST_URL = '/downloads/preisliste-maxglan.pdf'
 
 type ServicesProps = {
   services: ServiceItem[]
@@ -86,6 +89,36 @@ export default function Services({ services }: ServicesProps) {
             </motion.article>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-12 flex flex-col gap-4 border-t border-sand-50/10 pt-10 sm:mt-16 sm:flex-row sm:items-center sm:justify-between sm:pt-12"
+        >
+          <div className="max-w-md">
+            <p className="font-[family-name:var(--font-brand)] text-lg tracking-tight text-sand-50 md:text-xl">
+              Preisliste
+            </p>
+            <p className="mt-2 text-[0.95rem] font-light text-sand-100/55">
+              Alle Preise für Änderungen, Reparaturen und Reinigung auf einen Blick.
+            </p>
+          </div>
+          <a
+            href={PRICE_LIST_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 self-start border border-sand-50/20 px-5 py-3 text-[0.85rem] uppercase tracking-[0.18em] text-sand-50 transition-colors duration-300 hover:border-terracotta-300/50 hover:text-terracotta-300 sm:self-auto"
+          >
+            Zur Preisliste
+            <ArrowUpRight
+              size={16}
+              strokeWidth={1.5}
+              className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
+          </a>
+        </motion.div>
       </div>
     </section>
   )

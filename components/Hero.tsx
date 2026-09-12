@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Scissors } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import DeferredVideo from './DeferredVideo'
 
@@ -11,9 +10,7 @@ type HeroProps = {
   videoUrl: string
 }
 
-export default function Hero({ title, subtitle, videoUrl }: HeroProps) {
-  const shortTitle = title.replace(/^Schneiderei\s+/i, '')
-  const letters = shortTitle.split('')
+export default function Hero({ subtitle, videoUrl }: HeroProps) {
   const [revealed, setRevealed] = useState(false)
 
   useEffect(() => {
@@ -115,53 +112,18 @@ export default function Hero({ title, subtitle, videoUrl }: HeroProps) {
           className="max-w-[1400px]"
           style={{ pointerEvents: revealed ? 'auto' : 'none' }}
         >
-          <motion.div
-            initial={false}
-            animate={{ opacity: revealed ? 1 : 0, y: revealed ? 0 : 12 }}
-            transition={{ duration: 0.7, delay: revealed ? 0.05 : 0 }}
-            className="mb-4 text-[#e8d5c4] md:mb-6"
-          >
-            <Scissors className="rotate-[-18deg]" size={16} strokeWidth={1.2} />
-          </motion.div>
-
-          <h1 
-            className="font-[family-name:var(--font-brand)] text-[clamp(2.9rem,13vw,4.5rem)] leading-[0.9] tracking-[-0.03em] text-[#f7f1e8] [text-shadow:0_2px_40px_rgba(26,24,20,0.35)] md:text-[clamp(4rem,10vw,8.5rem)] md:leading-[0.88]"
-            aria-label={shortTitle}
-          >
-            {letters.map((letter, i) => (
-              <motion.span
-                key={`${letter}-${i}`}
-                aria-hidden="true"
-                initial={false}
-                animate={{
-                  opacity: revealed ? 1 : 0,
-                  y: revealed ? 0 : 36,
-                }}
-                transition={{
-                  duration: 0.55,
-                  delay: revealed ? 0.08 + i * 0.028 : 0,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="inline-block"
-                style={{ whiteSpace: letter === ' ' ? 'pre' : undefined }}
-              >
-                {letter === ' ' ? '\u00A0' : letter}
-              </motion.span>
-            ))}
-          </h1>
-
-          <motion.p
+          <motion.h1
             initial={false}
             animate={{ opacity: revealed ? 1 : 0, y: revealed ? 0 : 14 }}
             transition={{
               duration: 0.7,
-              delay: revealed ? 0.35 : 0,
+              delay: revealed ? 0.05 : 0,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="mt-5 max-w-md text-[0.95rem] font-light leading-relaxed text-[#e8e0d4]/90 md:mt-6 md:text-lg"
+            className="max-w-md font-[family-name:var(--font-brand)] text-[clamp(1.75rem,6vw,2.5rem)] font-normal leading-[1.15] tracking-[-0.02em] text-[#f7f1e8] [text-shadow:0_2px_40px_rgba(26,24,20,0.35)] md:text-[clamp(2rem,4vw,3rem)]"
           >
             {subtitle}
-          </motion.p>
+          </motion.h1>
 
           <motion.p
             initial={false}
