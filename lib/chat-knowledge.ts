@@ -5,10 +5,10 @@ export const chatFacts = {
   name: 'Schneiderei Yüksel',
   address: 'Maxglaner Hauptstraße 64, 5020 Salzburg',
   phone: '0662 825881',
-  email: 'info@schneiderei-yueksel.at',
-  openingHours: 'Mo–Fr 09:00–18:00, Sa geschlossen',
+  email: 'Schneiderei.yueksel@gmail.com',
+  openingHours: 'Mo–Fr 08:00–18:00, Sa geschlossen',
   since: 1990,
-  parking: 'Ja, Parkplätze direkt vor der Tür.',
+  parking: 'Ja, Parkplätze nebenan – drei Stellplätze.',
   appointment:
     'Nein, kein Termin nötig – einfach während der Öffnungszeiten vorbeikommen.',
   usp: 'Erste Schneiderei Österreichs mit digitaler Kundenbetreuung: Per Link sehen Kunden am Handy den Status ihrer Anfertigung und wann sie abholbereit ist.',
@@ -18,14 +18,8 @@ export const chatFacts = {
     'Recycling',
     'Reinigung (Anzüge, Kleider, empfindliche Stoffe)',
     'Teppichreinigung',
-    'Vorhangservice (Maßanfertigung und Montage)',
+    'Vorhangservice (Maßanfertigung)',
   ],
-  people: {
-    talha:
-      'Talha führt das Atelier mit digitaler Kundenbetreuung und dem Anspruch, Handwerk zeitgemäß erlebbar zu machen.',
-    senior:
-      'Senior steht seit 1990 für gelebtes Handwerk in Salzburg und nachhaltige Präzision.',
-  },
 } as const
 
 export function buildChatSystemPrompt(page?: HomepageData | null): string {
@@ -39,8 +33,6 @@ export function buildChatSystemPrompt(page?: HomepageData | null): string {
     page?.services?.length
       ? page.services.map((s) => `${s.title}: ${s.description}`).join('; ')
       : chatFacts.services.join('; ')
-  const talha = page?.about?.talha?.description || chatFacts.people.talha
-  const senior = page?.about?.senior?.description || chatFacts.people.senior
   const faqBlock =
     page?.faq?.length
       ? page.faq.map((f) => `Q: ${f.question}\nA: ${f.answer}`).join('\n\n')
@@ -51,7 +43,7 @@ export function buildChatSystemPrompt(page?: HomepageData | null): string {
 
   return `Du bist die digitale Assistenz der ${name} in Salzburg.
 
-Antworte immer auf Deutsch, höflich, klar und kurz (meist 1–3 Sätze). Du hilfst nur zu Themen der Schneiderei (Öffnungszeiten, Anfahrt, Leistungen, digitale Kundenbetreuung, Familie/Atelier, FAQ). Keine allgemeinen Ratschläge außerhalb dieses Kontexts.
+Antworte immer auf Deutsch, höflich, klar und kurz (meist 1–3 Sätze). Du hilfst nur zu Themen der Schneiderei (Öffnungszeiten, Anfahrt, Leistungen, digitale Kundenbetreuung, FAQ). Keine allgemeinen Ratschläge außerhalb dieses Kontexts.
 
 Bekannte Fakten:
 - Adresse: ${address}
@@ -61,13 +53,11 @@ Bekannte Fakten:
 - Seit: ${chatFacts.since}
 - USP: ${usp}
 - Leistungen: ${services}
-- Talha: ${talha}
-- Senior: ${senior}
 
 FAQ:
 ${faqBlock}
 
-Wenn du etwas nicht weißt (genaue Preise, konkrete Lieferzeiten), sag das ehrlich und verweise auf Anruf unter ${phone} oder Besuch vor Ort. Erfinde keine Preise oder Zusagen.
+Wenn du etwas nicht weißt (genaue Preise, konkrete Lieferzeiten), sag das ehrlich und verweise auf Anruf unter ${phone}, E-Mail an ${email} oder Besuch vor Ort. Erfinde keine Preise oder Zusagen.
 
 Ton: warm, ruhig, handwerklich – passend zu einer Traditions-Schneiderei, nicht wie ein Callcenter.`
 }

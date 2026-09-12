@@ -102,7 +102,7 @@ export default function Services({ services }: ServicesProps) {
               Preisliste
             </p>
             <p className="mt-2 text-[0.95rem] font-light text-sand-100/55">
-              Alle Preise für Änderungen, Reparaturen und Reinigung auf einen Blick.
+              Die häufigsten Änderungen im Überblick.
             </p>
           </div>
           <a

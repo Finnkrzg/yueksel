@@ -13,7 +13,6 @@ import { client } from '@/sanity/lib/client'
 export const revalidate = 300
 
 const UspSection = dynamic(() => import('@/components/UspSection'))
-const About = dynamic(() => import('@/components/About'))
 const Faq = dynamic(() => import('@/components/Faq'))
 const Contact = dynamic(() => import('@/components/Contact'))
 
@@ -48,7 +47,6 @@ export default async function Home() {
           galleryUrls={page.usp.galleryUrls}
         />
         <Services services={page.services} />
-        <About talha={page.about.talha} senior={page.about.senior} />
         <Faq items={page.faq} />
         <Contact
           address={page.contact.address}

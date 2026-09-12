@@ -7,9 +7,8 @@ import Logo from './Logo'
 const links = [
   { href: '#usp', label: 'Atelier', index: '01' },
   { href: '#services', label: 'Handwerk', index: '02' },
-  { href: '#about', label: 'Familie', index: '03' },
-  { href: '#faq', label: 'Fragen', index: '04' },
-  { href: '#contact', label: 'Besuch', index: '05' },
+  { href: '#faq', label: 'Fragen', index: '03' },
+  { href: '#contact', label: 'Besuch', index: '04' },
 ]
 
 type NavbarProps = {

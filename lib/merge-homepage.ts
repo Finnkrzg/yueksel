@@ -35,19 +35,12 @@ export function mergeHomepage(data: Partial<HomepageData> | null): HomepageData 
         imageUrl: base.about.senior.imageUrl,
       },
     },
-    faq:
-      data?.faq && data.faq.length > 0
-        ? data.faq
-            .filter((item) => item?.question && item?.answer)
-            .map((item) => ({
-              question: item.question,
-              answer: item.answer,
-            }))
-        : base.faq,
+    // FAQ fest aus Fallback – aktuelle Fragen im Code gepflegt
+    faq: base.faq,
     contact: {
       address: data?.contact?.address || base.contact.address,
       phone: data?.contact?.phone || base.contact.phone,
-      email: data?.contact?.email || base.contact.email,
+      email: base.contact.email,
       openingHours: base.contact.openingHours,
     },
   }

@@ -97,7 +97,7 @@ const localBusinessSchema = {
   '@id': 'https://schneiderei-yueksel.at',
   url: 'https://schneiderei-yueksel.at',
   telephone: '0662 825881',
-  email: 'info@schneiderei-yueksel.at',
+  email: 'Schneiderei.yueksel@gmail.com',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Maxglaner Hauptstraße 64',
@@ -114,7 +114,7 @@ const localBusinessSchema = {
     {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '09:00',
+      opens: '08:00',
       closes: '18:00',
     },
   ],

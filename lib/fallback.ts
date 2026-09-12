@@ -48,7 +48,7 @@ export const fallbackHomepage: HomepageData = {
     {
       title: 'Vorhangservice',
       description:
-        'Maßanfertigung und sorgfältige Montage – von der Beratung bis zur Installation.',
+        'Maßanfertigung – von der Beratung bis zur Fertigung.',
     },
   ],
   about: {
@@ -67,13 +67,23 @@ export const fallbackHomepage: HomepageData = {
     {
       question: 'Gibt es Parkplätze vor Ort?',
       answer:
-        'Ja. Es gibt Parkplätze direkt vor der Tür – Sie können bequem vorfahren und Ihr Stück bringen oder abholen.',
+        'Ja. Parkplätze befinden sich nebenan – drei Stellplätze stehen zur Verfügung.',
+    },
+    {
+      question: 'Ändern wir Brautkleider?',
+      answer: 'Nein, keine Änderung und keine Reinigung.',
     },
     {
       question:
-        'Welche Nebenleistungen gibt es – kann man auch Vorhänge schneidern lassen?',
+        'Wie lange sind die Wartezeiten, bis meine Änderung fertig ist?',
       answer:
-        'Neben Maßänderungen und Reinigung bieten wir Teppichreinigung sowie einen Vorhangservice mit Maßanfertigung und Montage an. Vorhänge können Sie also ebenfalls bei uns schneidern und anfertigen lassen.',
+        'In der Regel 5 Werktage. Wenn viel los ist, kann es länger dauern – Sie werden frühzeitig informiert.',
+    },
+    {
+      question:
+        'Habt ihr einen Express-Service, also Fertigstellung am selben Tag?',
+      answer:
+        'In der Regel nicht, aber wenn die Kapazitäten es zulassen, ist es möglich. Fragen Sie gerne bei uns an.',
     },
     {
       question: 'Brauche ich einen Termin?',
@@ -84,7 +94,7 @@ export const fallbackHomepage: HomepageData = {
   contact: {
     address: 'Maxglaner Hauptstraße 64, 5020 Salzburg',
     phone: '0662 825881',
-    email: 'info@schneiderei-yueksel.at',
-    openingHours: 'Mo–Fr 09:00–18:00, Sa geschlossen',
+    email: 'Schneiderei.yueksel@gmail.com',
+    openingHours: 'Mo–Fr 08:00–18:00, Sa geschlossen',
   },
 }
