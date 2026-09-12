@@ -10,7 +10,7 @@ type HeroProps = {
   videoUrl: string
 }
 
-export default function Hero({ subtitle, videoUrl }: HeroProps) {
+export default function Hero({ title, subtitle, videoUrl }: HeroProps) {
   const [revealed, setRevealed] = useState(false)
 
   useEffect(() => {
@@ -112,7 +112,7 @@ export default function Hero({ subtitle, videoUrl }: HeroProps) {
           className="max-w-[1400px]"
           style={{ pointerEvents: revealed ? 'auto' : 'none' }}
         >
-          <motion.h1
+          <motion.div
             initial={false}
             animate={{ opacity: revealed ? 1 : 0, y: revealed ? 0 : 14 }}
             transition={{
@@ -120,19 +120,18 @@ export default function Hero({ subtitle, videoUrl }: HeroProps) {
               delay: revealed ? 0.05 : 0,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="max-w-md font-[family-name:var(--font-brand)] text-[clamp(1.75rem,6vw,2.5rem)] font-normal leading-[1.15] tracking-[-0.02em] text-[#f7f1e8] [text-shadow:0_2px_40px_rgba(26,24,20,0.35)] md:text-[clamp(2rem,4vw,3rem)]"
+            className="max-w-sm border-l border-[#d4b8a0]/20 pl-5 md:max-w-md md:pl-6"
           >
-            {subtitle}
-          </motion.h1>
-
-          <motion.p
-            initial={false}
-            animate={{ opacity: revealed ? 1 : 0 }}
-            transition={{ duration: 0.6, delay: revealed ? 0.5 : 0 }}
-            className="mt-6 text-[10px] uppercase tracking-[0.28em] text-[#d4b8a0]/70 md:mt-8 md:text-[11px] md:tracking-[0.32em]"
-          >
-            Maxglan · Salzburg
-          </motion.p>
+            <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.34em] text-[#d4b8a0]/75 md:mb-4 md:text-[11px]">
+              {title}
+            </p>
+            <h1 className="font-[family-name:var(--font-body)] text-[clamp(0.9rem,2.2vw,1.05rem)] font-light leading-[1.72] tracking-[0.01em] text-[#eae4da]/88 md:text-[1.05rem] md:leading-[1.78] lg:max-w-[22rem]">
+              {subtitle}
+            </h1>
+            <p className="mt-4 text-[9px] uppercase tracking-[0.3em] text-[#c9b09a]/55 md:mt-5 md:text-[10px]">
+              Maxglan · Salzburg
+            </p>
+          </motion.div>
         </motion.div>
       </div>
 
