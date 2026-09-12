@@ -6,7 +6,7 @@ export const chatFacts = {
   address: 'Maxglaner Hauptstraße 64, 5020 Salzburg',
   phone: '0662 825881',
   email: 'Schneiderei.yueksel@gmail.com',
-  openingHours: 'Mo–Fr 08:00–18:00, Sa geschlossen',
+  openingHours: 'Mo–Fr 08:00–18:00',
   since: 1990,
   parking: 'Ja, Parkplätze nebenan – drei Stellplätze.',
   appointment:
