@@ -2,11 +2,12 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight, Check } from 'lucide-react'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import RevealTitle from './RevealTitle'
 
 /** Test-E-Mail – vor Go-Live wieder auf Schneiderei.yueksel@gmail.com setzen */
 const FORM_EMAIL = 'finnkrue@icloud.com'
+const SITE_URL = 'https://schneiderei-yueksel.at'
 
 type ContactProps = {
   address: string
@@ -15,7 +16,7 @@ type ContactProps = {
   openingHours?: string
 }
 
-type FormStatus = 'idle' | 'sending' | 'success' | 'error'
+type FormStatus = 'idle' | 'sending' | 'success'
 
 const inputClass =
   'w-full border-0 border-b border-olive-950/12 bg-transparent px-0 py-3 text-[0.95rem] font-light text-olive-950 placeholder:text-olive-800/30 outline-none transition-colors focus:border-terracotta-500/70'
@@ -27,7 +28,17 @@ export default function Contact({
   openingHours,
 }: ContactProps) {
   const [status, setStatus] = useState<FormStatus>('idle')
-  const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('contact') !== 'sent') return
+
+    setStatus('success')
+
+    const url = new URL(window.location.href)
+    url.searchParams.delete('contact')
+    window.history.replaceState({}, '', `${url.pathname}#contact`)
+  }, [])
 
   const links = [
     {
@@ -39,63 +50,8 @@ export default function Contact({
     { label: email, href: `mailto:${email}` },
   ]
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+  function handleSubmit(_event: FormEvent<HTMLFormElement>) {
     setStatus('sending')
-    setErrorMessage('')
-
-    const form = event.currentTarget
-    const formData = new FormData(form)
-    const name = String(formData.get('name') ?? '').trim()
-    const senderEmail = String(formData.get('email') ?? '').trim()
-    const message = String(formData.get('message') ?? '').trim()
-
-    try {
-      const response = await fetch(
-        `https://formsubmit.co/ajax/${encodeURIComponent(FORM_EMAIL)}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          body: JSON.stringify({
-            name,
-            email: senderEmail,
-            message,
-            _subject: `Anfrage von ${name} – Schneiderei Yüksel`,
-            _template: 'table',
-            _captcha: 'false',
-          }),
-        },
-      )
-
-      const data = (await response.json()) as {
-        success?: string | boolean
-        message?: string
-      }
-
-      const ok =
-        data.success === true ||
-        data.success === 'true' ||
-        (response.ok && data.success !== 'false' && data.success !== false)
-
-      if (!ok) {
-        setStatus('error')
-        setErrorMessage(
-          data.message?.includes('Activation')
-            ? 'Das Formular muss noch aktiviert werden – bitte prüfen Sie Ihr Postfach und klicken Sie den Link in der E-Mail von FormSubmit.'
-            : 'Nachricht konnte nicht gesendet werden. Rufen Sie uns gerne an.',
-        )
-        return
-      }
-
-      setStatus('success')
-      form.reset()
-    } catch {
-      setStatus('error')
-      setErrorMessage('Verbindungsfehler. Bitte versuchen Sie es erneut.')
-    }
   }
 
   return (
@@ -155,7 +111,23 @@ export default function Contact({
               Eine kurze Nachricht genügt – wir melden uns so bald wie möglich.
             </p>
 
-            <form onSubmit={handleSubmit} className="mt-8">
+            <form
+              action={`https://formsubmit.co/${encodeURIComponent(FORM_EMAIL)}`}
+              method="POST"
+              onSubmit={handleSubmit}
+              className="mt-8"
+            >
+              <input type="hidden" name="_subject" value="Anfrage – Schneiderei Yüksel" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
+              <input
+                type="hidden"
+                name="_next"
+                value={`${SITE_URL}/?contact=sent#contact`}
+              />
+              {/* Honeypot gegen Spam */}
+              <input type="text" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" />
+
               <div className="grid gap-6 sm:grid-cols-2 sm:gap-x-10">
                 <label className="block sm:col-span-1">
                   <span className="mb-2 block text-[10px] uppercase tracking-[0.24em] text-olive-800/45">
@@ -226,18 +198,6 @@ export default function Contact({
                     >
                       <Check size={16} strokeWidth={1.5} className="text-terracotta-600" />
                       Vielen Dank – Ihre Nachricht wurde gesendet.
-                    </motion.p>
-                  ) : null}
-
-                  {status === 'error' ? (
-                    <motion.p
-                      key="error"
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="max-w-xs text-sm font-light leading-relaxed text-terracotta-600"
-                    >
-                      {errorMessage}
                     </motion.p>
                   ) : null}
                 </AnimatePresence>
