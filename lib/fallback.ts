@@ -67,34 +67,35 @@ export const fallbackHomepage: HomepageData = {
     {
       question: 'Gibt es Parkplätze vor Ort?',
       answer:
-        'Ja. Parkplätze befinden sich nebenan – drei Stellplätze stehen zur Verfügung.',
+        'Ja, neben unserem Atelier stehen drei Parkplätze für Sie bereit. Sie können dort bequem parken, wenn Sie ein Kleidungsstück bringen oder abholen.',
     },
     {
-      question: 'Ändern wir Brautkleider?',
-      answer: 'Nein, keine Änderung und keine Reinigung.',
+      question: 'Ändern wir auch Brautkleider?',
+      answer:
+        'Brautkleider schneidern wir nicht. Gerne empfehlen wir Ihnen jedoch eine erfahrene Schneiderei unseres Vertrauens, die auf Brautkleider spezialisiert ist.',
     },
     {
       question:
         'Wie lange sind die Wartezeiten, bis meine Änderung fertig ist?',
       answer:
-        'In der Regel 5 Werktage. Wenn viel los ist, kann es länger dauern – Sie werden frühzeitig informiert.',
+        'Ihre Änderung ist in der Regel innerhalb von fünf Werktagen fertig. Wenn gerade besonders viel zu tun ist, kann es etwas länger dauern. Wir informieren Sie dann frühzeitig.',
     },
     {
       question:
         'Habt ihr einen Express-Service, also Fertigstellung am selben Tag?',
       answer:
-        'In der Regel nicht, aber wenn die Kapazitäten es zulassen, ist es möglich. Fragen Sie gerne bei uns an.',
+        'Eine Fertigstellung am selben Tag können wir in der Regel nicht zusagen. Wenn unsere Kapazitäten es zulassen, ist es aber möglich. Fragen Sie uns gerne persönlich oder telefonisch.',
     },
     {
       question: 'Brauche ich einen Termin?',
       answer:
-        'Nein, Sie brauchen keinen Termin. Kommen Sie einfach während unserer Öffnungszeiten vorbei.',
+        'Nein, Sie brauchen keinen Termin. Sie können während unserer Öffnungszeiten einfach vorbeikommen.',
     },
   ],
   contact: {
     address: 'Maxglaner Hauptstraße 64, 5020 Salzburg',
     phone: '0662 825881',
-    email: 'Schneiderei.yueksel@gmail.com',
+    email: 'schneiderei.yueksel@gmail.com',
     openingHours: 'Mo–Fr 08:00–18:00',
   },
 }

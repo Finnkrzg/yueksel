@@ -109,7 +109,7 @@ const structuredData = {
       url: 'https://schneiderei-yueksel.at',
       logo: 'https://schneiderei-yueksel.at/logo-mark.svg',
       image: 'https://schneiderei-yueksel.at/opengraph-image',
-      email: 'Schneiderei.yueksel@gmail.com',
+      email: 'schneiderei.yueksel@gmail.com',
       telephone: '0662 825881',
       address: {
         '@type': 'PostalAddress',
@@ -126,7 +126,7 @@ const structuredData = {
       image: 'https://schneiderei-yueksel.at/opengraph-image',
       url: 'https://schneiderei-yueksel.at',
       telephone: '0662 825881',
-      email: 'Schneiderei.yueksel@gmail.com',
+      email: 'schneiderei.yueksel@gmail.com',
       parentOrganization: {
         '@id': 'https://schneiderei-yueksel.at/#organization',
       },

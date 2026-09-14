@@ -58,7 +58,7 @@ export default function DatenschutzPage() {
               <p className="mt-2">
                 Telefon: 0662 825881
                 <br />
-                E-Mail: Schneiderei.yueksel@gmail.com
+                E-Mail: schneiderei.yueksel@gmail.com
               </p>
             </section>
 
@@ -124,7 +124,7 @@ export default function DatenschutzPage() {
                 5. Ihre Rechte
               </h2>
               <p>
-                Ihnen stehen bezüglich Ihrer bei uns gespeicherten Daten grundsätzlich die Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerruf und Widerspruch zu. Wenn Sie glauben, dass die Verarbeitung Ihrer Daten gegen das Datenschutzrecht verstößt oder Ihre datenschutzrechtlichen Ansprüche sonst in einer Weise verletzt worden sind, können Sie sich bei uns (Schneiderei.yueksel@gmail.com) oder der Datenschutzbehörde beschweren.
+                Ihnen stehen bezüglich Ihrer bei uns gespeicherten Daten grundsätzlich die Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerruf und Widerspruch zu. Wenn Sie glauben, dass die Verarbeitung Ihrer Daten gegen das Datenschutzrecht verstößt oder Ihre datenschutzrechtlichen Ansprüche sonst in einer Weise verletzt worden sind, können Sie sich bei uns (schneiderei.yueksel@gmail.com) oder der Datenschutzbehörde beschweren.
               </p>
             </section>
           </div>

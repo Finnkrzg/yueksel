@@ -5,11 +5,10 @@ import { useEffect, useRef, useState } from 'react'
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
-  const pos = useRef({ x: 0, y: 0 })
+  const ringPos = useRef({ x: 0, y: 0 })
   const target = useRef({ x: 0, y: 0 })
+  const hovering = useRef(false)
   const [enabled, setEnabled] = useState(false)
-  const [hovering, setHovering] = useState(false)
-  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const fine = window.matchMedia('(pointer: fine)').matches
@@ -20,30 +19,60 @@ export default function CustomCursor() {
     document.documentElement.classList.add('has-custom-cursor')
 
     let frame = 0
+    let started = false
+
+    const applyHover = (next: boolean) => {
+      if (hovering.current === next) return
+      hovering.current = next
+      const size = next ? '3rem' : '2rem'
+      const dot = next ? '0.625rem' : '0.375rem'
+      if (dotRef.current) {
+        dotRef.current.style.width = dot
+        dotRef.current.style.height = dot
+      }
+      if (ringRef.current) {
+        ringRef.current.style.width = size
+        ringRef.current.style.height = size
+        ringRef.current.style.opacity = next ? '1' : '0.7'
+      }
+    }
 
     const onMove = (e: MouseEvent) => {
       target.current = { x: e.clientX, y: e.clientY }
-      setVisible(true)
+      if (dotRef.current) {
+        dotRef.current.style.opacity = '1'
+        dotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`
+      }
+      if (ringRef.current) ringRef.current.style.opacity = hovering.current ? '1' : '0.7'
+      if (!started) {
+        ringPos.current = { x: e.clientX, y: e.clientY }
+        started = true
+      }
     }
 
-    const onLeave = () => setVisible(false)
+    const onLeave = () => {
+      if (dotRef.current) dotRef.current.style.opacity = '0'
+      if (ringRef.current) ringRef.current.style.opacity = '0'
+    }
 
     const onOver = (e: MouseEvent) => {
       const el = e.target as HTMLElement | null
       if (!el) return
-      const interactive = el.closest('a, button, [role="button"], label, summary, input, textarea')
-      setHovering(Boolean(interactive))
+      applyHover(
+        Boolean(
+          el.closest('a, button, [role="button"], label, summary, input, textarea'),
+        ),
+      )
     }
 
     const tick = () => {
-      pos.current.x += (target.current.x - pos.current.x) * 0.22
-      pos.current.y += (target.current.y - pos.current.y) * 0.22
+      const dx = target.current.x - ringPos.current.x
+      const dy = target.current.y - ringPos.current.y
+      ringPos.current.x += dx * 0.45
+      ringPos.current.y += dy * 0.45
 
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${pos.current.x}px, ${pos.current.y}px, 0) translate(-50%, -50%)`
-      }
       if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${pos.current.x}px, ${pos.current.y}px, 0) translate(-50%, -50%)`
+        ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%)`
       }
 
       frame = requestAnimationFrame(tick)
@@ -66,23 +95,15 @@ export default function CustomCursor() {
   if (!enabled) return null
 
   return (
-    <div
-      aria-hidden
-      className={`pointer-events-none fixed inset-0 z-[999] mix-blend-difference transition-opacity duration-300 ${
-        visible ? 'opacity-100' : 'opacity-0'
-      }`}
-    >
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-[999] mix-blend-difference">
       <div
         ref={dotRef}
-        className={`absolute top-0 left-0 rounded-full bg-white transition-[width,height] duration-200 ease-out ${
-          hovering ? 'h-2.5 w-2.5' : 'h-1.5 w-1.5'
-        }`}
+        className="absolute top-0 left-0 h-1.5 w-1.5 rounded-full bg-white opacity-0 will-change-transform"
       />
       <div
         ref={ringRef}
-        className={`absolute top-0 left-0 rounded-full border border-white transition-[width,height,opacity] duration-300 ease-out ${
-          hovering ? 'h-12 w-12 opacity-100' : 'h-8 w-8 opacity-70'
-        }`}
+        className="absolute top-0 left-0 h-8 w-8 rounded-full border border-white opacity-0 will-change-transform"
+        style={{ transition: 'width 0.2s ease-out, height 0.2s ease-out, opacity 0.2s ease-out' }}
       />
     </div>
   )

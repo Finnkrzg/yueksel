@@ -45,7 +45,7 @@ export default function ImpressumPage() {
                 <br />
                 Web: <a href="https://www.schneiderei-yueksel.at" className="hover:text-terracotta-600 transition-colors">www.schneiderei-yueksel.at</a>
                 <br />
-                E-Mail: <a href="mailto:Schneiderei.yueksel@gmail.com" className="hover:text-terracotta-600 transition-colors">Schneiderei.yueksel@gmail.com</a>
+                E-Mail: <a href="mailto:schneiderei.yueksel@gmail.com" className="hover:text-terracotta-600 transition-colors">schneiderei.yueksel@gmail.com</a>
               </p>
               <p className="mt-4">
                 <strong>Firmenbuchnummer:</strong> FN 196225t

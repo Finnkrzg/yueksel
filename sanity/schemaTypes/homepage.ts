@@ -252,7 +252,7 @@ export const homepage = defineType({
           name: 'email',
           title: 'E-Mail',
           type: 'string',
-          initialValue: 'Schneiderei.yueksel@gmail.com',
+          initialValue: 'schneiderei.yueksel@gmail.com',
         }),
         defineField({
           name: 'openingHours',
