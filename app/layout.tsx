@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Manrope, Syne } from 'next/font/google'
+import { Barlow_Condensed, Manrope, Syne } from 'next/font/google'
 import CookieBanner from '@/components/CookieBanner'
 import './globals.css'
 
@@ -15,6 +15,15 @@ const body = Manrope({
   variable: '--font-body',
   subsets: ['latin'],
   weight: ['300', '400', '500'],
+  display: 'swap',
+  preload: true,
+})
+
+/** Nahe an Agency FB – nur für die Wortmarke oben */
+const logo = Barlow_Condensed({
+  variable: '--font-logo',
+  subsets: ['latin', 'latin-ext'],
+  weight: ['500', '600'],
   display: 'swap',
   preload: true,
 })
@@ -170,7 +179,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="de" data-scroll-behavior="smooth" className={`${brand.variable} ${body.variable} h-full antialiased`}>
+    <html lang="de" data-scroll-behavior="smooth" className={`${brand.variable} ${body.variable} ${logo.variable} h-full antialiased`}>
       <head>
         <script
           type="application/ld+json"
