@@ -126,6 +126,112 @@ body {
   }
 }
 
+/* Halteseite: weiches Licht und eine langsam wandernde Naht */
+.coming-glow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(40px);
+  animation: coming-drift 16s ease-in-out infinite;
+}
+
+.coming-glow-a {
+  top: -8%;
+  left: -6%;
+  width: 42vw;
+  height: 42vw;
+  max-width: 28rem;
+  max-height: 28rem;
+  background: rgba(196, 132, 106, 0.16);
+}
+
+.coming-glow-b {
+  right: -8%;
+  bottom: 8%;
+  width: 36vw;
+  height: 36vw;
+  max-width: 24rem;
+  max-height: 24rem;
+  background: rgba(68, 74, 52, 0.08);
+  animation-delay: -8s;
+}
+
+.coming-thread {
+  position: absolute;
+  top: 12vh;
+  bottom: 12vh;
+  left: 1.15rem;
+  width: 1px;
+  background-image: repeating-linear-gradient(
+    180deg,
+    rgba(168, 95, 66, 0.35) 0 7px,
+    transparent 7px 14px
+  );
+}
+
+.coming-needle {
+  position: absolute;
+  left: 50%;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 9999px;
+  border: 1px solid var(--terracotta-600);
+  background: var(--sand-50);
+  transform: translate(-50%, -50%);
+  animation: coming-needle 8s ease-in-out infinite alternate;
+}
+
+.coming-rise {
+  animation: coming-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes coming-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, 8%, 0) scale(1.08);
+  }
+}
+
+@keyframes coming-needle {
+  from {
+    top: 0%;
+  }
+  to {
+    top: 100%;
+  }
+}
+
+@keyframes coming-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .coming-thread {
+    left: 2.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coming-glow,
+  .coming-needle,
+  .coming-rise {
+    animation: none;
+  }
+
+  .coming-needle {
+    top: 18%;
+  }
+}
+
 /* Bild-Reveal Maske */
 .clip-reveal {
   clip-path: inset(100% 0 0 0);

@@ -31,20 +31,19 @@ export default function ComingSoon({
 
   return (
     <div className="relative flex min-h-svh flex-col overflow-hidden bg-sand-50">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse 70% 50% at 8% 0%, rgba(196,132,106,0.12), transparent 50%), radial-gradient(ellipse 55% 40% at 100% 12%, rgba(68,74,52,0.07), transparent 48%)',
-        }}
-      />
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="coming-glow coming-glow-a" />
+        <div className="coming-glow coming-glow-b" />
+        <div className="coming-thread">
+          <span className="coming-needle" />
+        </div>
+      </div>
 
       <header className="relative z-10 flex justify-center px-5 pt-[calc(1.75rem+env(safe-area-inset-top))] sm:pt-10">
         <Logo className="text-olive-950" />
       </header>
 
-      <main className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-5 py-14 sm:px-8 sm:py-16 md:py-20">
+      <main className="coming-rise relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-8 py-14 sm:px-12 sm:py-16 md:px-16 md:py-20">
         <p className="text-[10px] uppercase tracking-[0.32em] text-terracotta-600">
           Neue Website in Arbeit
         </p>
@@ -52,8 +51,8 @@ export default function ComingSoon({
           Wir arbeiten gerade an unserer neuen Seite.
         </h1>
         <p className="mt-5 max-w-lg font-light leading-relaxed text-olive-800/70 sm:mt-6 sm:text-lg">
-          Bis dahin sind wir wie gewohnt für Sie da – Änderungen, Reparaturen,
-          Reinigung und Vorhänge in Maxglan. Ohne Termin, während unserer
+          Bis dahin sind wir wie gewohnt für Sie da – Änderungen, Reparaturen
+          und Reinigung in Maxglan. Ohne Termin, während unserer
           Öffnungszeiten.
         </p>
 
@@ -97,7 +96,7 @@ export default function ComingSoon({
         </p>
       </main>
 
-      <footer className="relative z-10 px-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] sm:px-8">
+      <footer className="relative z-10 px-8 pb-[calc(1.5rem+env(safe-area-inset-bottom))] sm:px-12 md:px-16">
         <div className="mx-auto flex max-w-3xl flex-col items-center justify-between gap-3 border-t border-olive-950/10 py-6 text-[0.8rem] font-light text-olive-800/45 sm:flex-row sm:text-sm">
           <span>© {new Date().getFullYear()} Schneiderei Yüksel</span>
           <div className="flex items-center gap-6">
