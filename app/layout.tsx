@@ -19,10 +19,11 @@ const body = Manrope({
   preload: true,
 })
 
-/** Nahe an Agency FB – nur für die Wortmarke oben */
+/** Nahe an Agency FB – nur für die Wortmarke oben.
+ *  Ein Subset: Vercel-Turbopack bricht bei mehreren Google-Font-Subsets ab. */
 const logo = Barlow_Condensed({
   variable: '--font-logo',
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin'],
   weight: ['500', '600'],
   display: 'swap',
   preload: true,
